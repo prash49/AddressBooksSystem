@@ -10,7 +10,6 @@ public class ContactPerson {
     private int zip, phoneNumber;
 
     public ContactPerson() {
-
     }
 
     public ContactPerson(String firstName, String lastName, String address, String city, String state, String email,
