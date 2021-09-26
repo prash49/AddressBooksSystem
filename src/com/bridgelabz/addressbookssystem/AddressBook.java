@@ -8,6 +8,8 @@ public class AddressBook {
     Scanner sc = new Scanner(System.in);
     private ContactPerson contactBook[];
     private int numberOfConatcts = 0;
+    private static String[] addressBookName = new String[10];
+
 
     AddressBook() {
         this.contactBook = new ContactPerson[20];
