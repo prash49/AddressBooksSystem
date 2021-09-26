@@ -1,38 +1,102 @@
 package com.bridgelabz.addressbookssystem;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBookMain {
-    static Scanner scanner = new Scanner(System.in);
+    private static List<AddressBook> addressBooks = new LinkedList<AddressBook>();
+    private static String[] addressBookName = new String[10];
+    private static int  numOfBooks =0;
 
-    public static void main(String[] args) {
-        System.out.println("\n Welcome to Address Book System");
-        AddressBook addressBook = new AddressBook();
-        boolean quit = false;
-        while (!quit) {
-            System.out.println("Enter \n1 -> Add Contact \n2 -> Edit Existing Contact \n3 -> Delete contact " +
-                    "\n4 -> Add multiple contact \n5 -> Quit ");
-            switch (scanner.nextInt()) {
-                case 1:
+    private boolean checkName(String name) {
+        for(int i=0;i<addressBooks.size();i++) {
+            if(addressBookName[i].equals(name)) return true;
+        }
+        return false;
+    }
+
+    private static void addressMenu(AddressBook addressBook) {
+        Scanner sc = new Scanner(System.in);
+        int option = 0;
+        boolean exit = true;
+        while(exit) {
+            System.out.println("Select option 1: add user.  2: edit existing user.  3: display all users 4:Delete contact. 5:Switch Address Book");
+            option  = sc.nextInt();
+            switch(option) {
+                case 1 :
+                    System.out.println("added");
                     addressBook.addContacts();
                     break;
-                case 2:
+                case 2 :
+                    System.out.println("Enter the first name to edit");
                     addressBook.edit();
                     break;
                 case 3:
-                    addressBook.delete();
+                    System.out.println("display");
+                    addressBook.display();
                     break;
                 case 4:
-                    addressBook.addMultipleContacts();
-                    break;
-                case 5:
-                    System.out.println("Exiting fro AddressBook");
-                    quit = true;
+                    System.out.println("Enter name");
+                    addressBook.delete();
                     break;
                 default:
-                    System.out.println("Enter valid Number");
+                    exit = false;
 
             }
+            System.out.println();
+        }
+    }
+    public static void main(String[] args) {
+        System.out.println("Welcome to address book program");
+        Scanner sc = new Scanner(System.in);
+
+        AddressBook currentBook;
+        int choice =0;
+        boolean exit1 = true;
+        while(exit1) {
+            System.out.println("Select option 1:Add address Book 2:open Address Book 4:Display 5:exit");
+            choice = sc.nextInt();
+            switch(choice) {
+                case 1:
+                    System.out.println("Enter the address book name");
+                    String name = sc.next();
+                    currentBook  = new AddressBook();
+                    addressBooks.add(currentBook);
+                    addressBookName[numOfBooks] = name;
+                    numOfBooks++;
+                    break;
+                case 2:
+                    System.out.println("The Address books available :");
+                    for(int i=0;i<numOfBooks;i++) {
+                        System.out.println(addressBookName[i]);
+                    }
+                    System.out.println("Enter the address book name");
+                    String bookName = sc.next();
+                    int i =0;
+                    for(i=0;i<numOfBooks;i++) {
+                        if(addressBookName[i].equals(bookName)) break;
+                    }
+
+                    if(i == numOfBooks) {
+                        System.out.println("name Not Found");
+                        break;
+                    }
+                    currentBook = addressBooks.get(i);
+                    addressMenu(currentBook);
+                    break;
+                case 4:
+                    printAdressBooks();
+                default:
+                    exit1 = false;
+            }
+        }
+        sc.close();
+    }
+
+    private static void printAdressBooks() {
+        for(String adressBooksDisplay : addressBookName){
+            System.out.println(adressBooksDisplay);
         }
     }
 }
